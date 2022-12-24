@@ -34,8 +34,12 @@ def choose_chinese(word_info, pause):
             s += '\n'
         print(s)
         current = option[get_current()]
-        while input('输入选项：') != current:
-            print('错误')
+        while True:
+            user_input = input('输入选项：')
+            if user_input.upper() != current:
+                print('错误')
+            else:
+                break
         if pause:
             system('pause')
         system('cls')
@@ -56,8 +60,12 @@ def choose_english(word_info, pause):
             s += '\n'
         print(s)
         current = option[get_current()]
-        while input('输入选项：') != current:
-            print('错误')
+        while True:
+            user_input = input('输入选项：')
+            if user_input.upper() != current:
+                print('错误')
+            else:
+                break
         if pause:
             system('pause')
         system('cls')
