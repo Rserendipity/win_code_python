@@ -1,7 +1,9 @@
 def upload(sql, user_info):
     s = "update user_info set "
-    s += "user_current_save = "
-    s += str(user_info[3] + user_info[4])
+    s += "user_password = '"
+    s += user_info[2] + "'"
+    s += ",user_current_save = "
+    s += str(user_info[3])
     s += ",user_everyday_num = "
     s += str(user_info[4])
     s += ",user_pause_way = "
@@ -13,6 +15,7 @@ def upload(sql, user_info):
     s += user_info[1]
     s += "';"
     sql.execute(s)
+
 
 #     update
 #     user_info
