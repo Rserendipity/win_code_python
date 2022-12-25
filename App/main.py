@@ -22,7 +22,7 @@ def user_set(user_info):
         print('\n1、更改密码')
         print('2、每次背诵个数')
         print('3、背完单词后是否暂停')
-        print('4、退出')
+        print('4、确认退出')
 
         user_in = input('\n请选择：')
         if user_in == '1':
@@ -59,6 +59,34 @@ def user_set(user_info):
 
         system('pause')
         system('cls')
+
+
+def user_join(sql, connect):
+    while True:
+        user_name = input('请输入用户名：')
+        if user_name.find("'") != -1:
+            print("含有非法字符！")
+            continue
+        sql.execute("select id from user_info where user_name like '" + user_name + "';")
+        result = sql.fetchone()
+        if result:
+            print('已重复，请重新输入账号名')
+            system('pause')
+            system('cls')
+            continue
+
+        break
+
+    user_info = [0, user_name, '123456', 0, 5, 0]
+    s = "insert into user_info values (" + "0,'" + user_name + "',123456,0,5,0);"
+    sql.execute(s)
+    print('创建中.....')
+    connect.commit()
+    print('完成.....')
+    system('pause')
+    system('cls')
+    user_set(user_info)
+
 
 def menu(sql, connect):
     # 登录，成功才会返回，返回的是用户的信息
@@ -130,8 +158,22 @@ if __name__ == '__main__':
     system('pause')
     system('cls')
 
-    # 菜单，可以给用户修改信息，提供背单词的接口
-    menu(sql, connect)
+    while True:
+        system('cls')
+        print('1、注册')
+        print('2、登录')
+        print('3、退出\n')
+
+        user_in = input('请选择：')
+        if user_in == '1':
+            user_join(sql, connect)
+        elif user_in == '2':
+            # 菜单，登录、修改信息、背单词
+            menu(sql, connect)
+        elif user_in == '3':
+            break
+        else:
+            print('选择错误！')
 
     # 关闭连接
     connect.commit()
