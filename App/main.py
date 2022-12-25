@@ -83,10 +83,13 @@ def user_join(sql, connect):
     print('创建中.....')
     connect.commit()
     print('完成.....')
+    user_set(user_info)
+    print('正在上传你的信息.......')
+    upload.upload(sql, user_info)
+    connect.commit()
+    print('上传完成..........')
     system('pause')
     system('cls')
-    user_set(user_info)
-
 
 def menu(sql, connect):
     # 登录，成功才会返回，返回的是用户的信息
