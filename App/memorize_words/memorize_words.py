@@ -4,11 +4,13 @@ from os import system
 rand = []
 
 
+# 获取[0~3]的随机数，作为选项
 def get_random():
     global rand
     rand = random.sample(range(0, 4), 4)
 
 
+# 获取正确选项的下标
 def get_current():
     global rand
     index = 0
@@ -19,6 +21,7 @@ def get_current():
             index += 1
 
 
+# 选择中文模式
 def choose_chinese(word_info, pause):
     global rand
     option = ['A', 'B', 'C', 'D']
@@ -45,6 +48,7 @@ def choose_chinese(word_info, pause):
         system('cls')
 
 
+# 选择英文模式
 def choose_english(word_info, pause):
     global rand
     option = ['A', 'B', 'C', 'D']

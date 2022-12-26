@@ -1,3 +1,7 @@
+#
+# 上传用户的信息
+#
+
 def upload(sql, user_info):
     s = "update user_info set "
     s += "user_password = '"
@@ -23,8 +27,8 @@ def upload(sql, user_info):
 #     user_current_save = 25,
 #     user_everyday_num = 3,
 #     user_pause_way = false
-# where
-# user_name
-# like
-# 'cjj';
+#     where
+#     user_name
+#     like
+#     'cjj';
 

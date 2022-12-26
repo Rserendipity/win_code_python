@@ -1,6 +1,7 @@
 import pymysql
-from log import user_loging
 from os import system
+
+from log import user_loging
 from word import word
 from memorize_words import memorize_words
 from upload import upload
@@ -91,16 +92,18 @@ def user_join(sql, connect):
     system('pause')
     system('cls')
 
-def menu(sql, connect):
-    # 登录，成功才会返回，返回的是用户的信息
+
+def user_login(sql, connect):
+    # 登录函数，成功才会返回，返回的是用户的信息，格式：[id，用户名，密码，当前的记录，每次个数，是否暂停]
     user_info = list(user_loging.longin(sql))
-    connect.commit()  # 提交本次的sql语句
+    connect.commit()
+
     while True:
         print('1、设置')
         print('2、开始背单词')
         print('3、退出\n')
-        user_input = input('请选择：')
 
+        user_input = input('请选择：')
         if user_input == '1':
             system('cls')
             user_set(user_info)
@@ -117,9 +120,9 @@ def menu(sql, connect):
             word_info = word.loading(sql, user_info)
             connect.commit()
             # 用户背单词
-            memorize_words.choose_chinese(word_info, user_info[5])
+            memorize_words.choose_chinese(word_info, user_info[5])  # user_info[5]是暂停的方式，bool值
             memorize_words.choose_english(word_info, user_info[5])
-            user_info[3] += user_info[4]
+            user_info[3] += user_info[4]  # 背完以后 记录 += 每次个数
             print('恭喜你已完成本次的背诵！')
             # 上传记录
             print('上传记录中.....')
@@ -146,15 +149,18 @@ if __name__ == '__main__':
     print('连接中.......')
 
     # 连接数据库
-    connect = pymysql.connect(host='1.15.113.185',
+    connect = pymysql.connect(host='',  # 为保护我的小小服务器，这里我删掉了
                               port=3306,
-                              user='cjj',
-                              password='Cjj020427@',
-                              database='cjj')
+                              user='',
+                              password='',
+                              database='')
+
+    # 连接不成功直接退出程序
     if not connect.open:
         print('无法连接到数据库，请检查网络')
         system('pause')
         exit(-1)
+
     sql = connect.cursor()  # 得到sql句柄
 
     print('连接成功.......')
@@ -167,14 +173,18 @@ if __name__ == '__main__':
         print('2、登录')
         print('3、退出\n')
 
-        user_in = input('请选择：')
-        if user_in == '1':
+        user_input = input('请选择：')
+        if user_input == '1':
+            # 用户注册
             user_join(sql, connect)
-        elif user_in == '2':
-            # 菜单，登录、修改信息、背单词
-            menu(sql, connect)
-        elif user_in == '3':
+
+        elif user_input == '2':
+            # 用户登录
+            user_login(sql, connect)
+
+        elif user_input == '3':
             break
+
         else:
             print('选择错误！')
 

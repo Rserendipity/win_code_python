@@ -1,3 +1,7 @@
+#
+# 从数据库加载单词数据
+#
+
 def loading(sql, user_info):
     s = 'select en_current,en_err1,en_err2,en_err3,ch_current,ch_err1,ch_err2,ch_err3' \
         ' from word where id >= '\
