@@ -4,8 +4,7 @@ import pymysql
 class cjjdb:
     def __init__(self):
         try:
-            # self.db = pymysql.connect(host='localhost', user='root', password='123456', database='member_words', port=3306)
-            self.db = pymysql.connect(host='1.15.113.185', user='cjj', password='Cjj020427@', database='cjj', port=3306)
+            self.db = pymysql.connect(host='localhost', user='root', password='123456', database='member_words', port=3306)
             self.cursor = self.db.cursor()
         except pymysql:
             print('未能连接数据库')
@@ -31,7 +30,7 @@ class cjjdb:
 
     # 新增用户 user_info格式[user_name, user_passwd]
     def add_user(self, user_info: list) -> bool:
-        sql = "INSERT INTO users VALUES (null, %s, %s, 1, 5, false)"
+        sql = "INSERT INTO users VALUES (null, %s, %s, 1, 5, true)"
 
         try:
             self.cursor.execute(sql, user_info)
@@ -50,6 +49,17 @@ class cjjdb:
         rows = self.cursor.execute(sql, user_info)
         self.db.commit()
         return rows != 0
+
+    # 更新用户进度
+    def update_plan(self, user_info: dict):
+        sql = "UPDATE users SET " \
+              "current_plan = %s " \
+              "WHERE user_name = %s"
+
+        update_info = [user_info['current_plan'] + user_info['goal_plan'], user_info['user_name']]
+        self.cursor.execute(sql, update_info)
+        self.db.commit()
+
 
     # 获取单词列表 从单词id开始, 获取size个单词数据 查询失败返回空
     def get_words(self, begin_id: int, size: int) -> list:

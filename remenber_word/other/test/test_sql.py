@@ -28,8 +28,14 @@ from util import mydb
 #     print([])
 
 db = mydb.cjjdb()
+user_info = db.get_userinfo([123, 123])
 
-words = db.get_words(1, 3)
+for k,v in user_info.items():
+    print(f'{k} {v}')
 
-for word in words:
-    print(word)
+db.update_plan(user_info)
+
+# words = db.get_words(1, 3)
+#
+# for word in words:
+#     print(word)
