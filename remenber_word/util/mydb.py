@@ -1,7 +1,7 @@
 import pymysql
 
 
-class mydb:
+class cjjdb:
     def __init__(self):
         try:
             # self.db = pymysql.connect(host='localhost', user='root', password='123456', database='member_words', port=3306)
@@ -31,7 +31,7 @@ class mydb:
 
     # 新增用户 user_info格式[user_name, user_passwd]
     def add_user(self, user_info: list) -> bool:
-        sql = "INSERT INTO users VALUES (null, %s, %s, 0, 5, false)"
+        sql = "INSERT INTO users VALUES (null, %s, %s, 1, 5, false)"
 
         try:
             self.cursor.execute(sql, user_info)
@@ -51,6 +51,12 @@ class mydb:
         self.db.commit()
         return rows != 0
 
-    # 获取单词列表
-    def get_words(self, begin: int, size: int) -> list:
-        pass  # todo
+    # 获取单词列表 从单词id开始, 获取size个单词数据 查询失败返回空
+    def get_words(self, begin_id: int, size: int) -> list:
+        sql = 'SELECT ch0, en0, en1, en2, en3  FROM word LIMIT %s OFFSET %s'
+        self.cursor.execute(sql, [size, begin_id - 1])
+        word = self.cursor.fetchall()
+        if word:
+            return list(word)
+        else:
+            return []

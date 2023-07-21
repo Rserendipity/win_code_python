@@ -1,8 +1,10 @@
 import pymysql
 
-db = pymysql.connect(host='1.15.113.185', user='cjj', password='Cjj020427@', database='cjj', port=3306)
+from util import mydb
 
-cur = db.cursor()
+# db = pymysql.connect(host='1.15.113.185', user='cjj', password='Cjj020427@', database='cjj', port=3306)
+#
+# cur = db.cursor()
 #
 # sql = "update users set " \
 #       "user_passwd = %s, current_plan = %s, goal_plan = %s, is_pause = %s" \
@@ -16,11 +18,18 @@ cur = db.cursor()
 # cur.execute(sql, user_info)
 # db.commit()
 
-user_name = str(123)
-sql = 'select * from users where user_name = %s'
-cur.execute(sql, [user_name])
-ret = cur.fetchone()
-if ret is not None:
-    print(list(ret))
-else:
-    print([])
+# user_name = str(123)
+# sql = 'select * from users where user_name = %s'
+# cur.execute(sql, [user_name])
+# ret = cur.fetchone()
+# if ret is not None:
+#     print(list(ret))
+# else:
+#     print([])
+
+db = mydb.cjjdb()
+
+words = db.get_words(1, 3)
+
+for word in words:
+    print(word)

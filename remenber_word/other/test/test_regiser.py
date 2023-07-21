@@ -1,7 +1,7 @@
 from user.register import user_register
 from util import mydb
 
-db = mydb.mydb()
+db = mydb.cjjdb()
 
 while True:
     user_info = user_register(db)
